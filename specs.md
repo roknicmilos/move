@@ -48,6 +48,10 @@ locally and create the above entities (objects) automatically.
     - workout: Workout (FK)
     - name: str
     - description: str
+    - sets: int (optional)
+    - reps: int (optional)
+    - duration_sec: int (seconds) optional
+    - load_kg: float (kilograms) optional
 - WorkoutSession
     - workout: Workout
     - date: date
