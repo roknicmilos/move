@@ -1,0 +1,246 @@
+workouts:
+  - id: 1
+    name: Low Back Ability Main Workout a.k.a. Flow
+    short_name: LBA Main
+    description: The main workout session for lower back strengthening.
+  - id: 2
+    name: Low Back Ability Supporting Workout a.k.a. Mobility Flow
+    short_name: LBA Supporting
+    description: The supporting workout session for lower back strengthening, plus calisthenics exercises.
+
+exercises:
+  # Workout 1 - Low Back Ability Main Workout
+  - id: 1
+    workout: 1
+    name: Sled Pull
+    instructions: >-
+      Start with just BACKWARDS sled for the first few sessions. Gradually progress to include Sled PUSH/PULL COMBO
+      up to 2x/week. Sled PUSH involves gentle spinal compression that we want to slowly build tolerance to. If a
+      sled isn’t available, walk backward on a treadmill (turned off) or simply practice walking backward. Pay
+      attention to your footing to avoid injury.
+    purpose: >-
+      The Sled is a complete lower body exercise that is very low back friendly. The Sled PUSH is a great middle
+      step back to traditional lifts like back squat. Training the legs with tolerable spinal compression. The sled
+      PUSH actually has been a great relief tool for many people during a flare up (take it slow).
+  - id: 2
+    workout: 1
+    name: Tibialis Raises
+    instructions: >-
+      Stand upright, or with a slight bend at the hips for more ease. Begin with the hips against a wall and the
+      heels standing about 12 inches away from the wall. Lift your toes up and towards your shins, engaging the
+      muscles of the anterior lower leg.
+    purpose: >-
+      Our “Ground-Up” rebalancing begins at the first common weak link: The FRONT of the ankle. Weakness can often
+      be seen after prolonged nerve pain, sometimes even presenting as foot drop. Building strength in the ankles &
+      lower legs is our first step in finding pain-free evidence as we work our way up. Weak ankles leave the knees
+      vulnerable which can affect our true low back training.
+  - id: 3
+    workout: 1
+    name: Deep Calf Raise
+    instructions: >-
+      Stand an arm’s length from wall and place your hands ahead. While keeping the heels on the ground, bend the
+      knees pushing them as far over the toes as you can while maintaining heel contact with the ground. Lock this
+      position. From here, lift onto the toes and perform a calf raise, maintaining the knee over toe position.
+    purpose: >-
+      Applying strength through length to the soleus, or the lower calf muscle, begins a cascade of engagement and
+      protection that travels up the posterior leg. Opening here allows for more length to eventually be experienced
+      in the hamstrings.
+  - id: 4
+    workout: 1
+    name: Reverse Step Up
+    instructions: >-
+      Stand upright, and extend one leg out in front of you about 6 inches off of the ground. Keep this leg entirely
+      straight. With the standing leg, bend at the knee, pushing the hips forward until the heel of the elevated leg
+      taps the ground. Pause for 1 second here, then straighten to standing position.
+    purpose: >-
+      This movement helps build the Vastus Medialis Oblique (VMO), which is incredibly protective of the knee.
+      Building knee resilience at this step will give us better access at more back specific steps of the LBA Flow,
+      such as the Full Range Split Squat.
+  - id: 5
+    workout: 1
+    name: Full Range Split Squats
+    instructions: >-
+      Begin with an elevated front foot and feet maintaining hip width distance apart. Lower slowly keeping the
+      torso upright and the back leg as straight as possible. Only lower to your current level of knee flexion and
+      pain free ability. Push through the front foot to return to the starting position.
+    purpose: >-
+      Beginning to work up the legs and address the Psoas, the deeper hip flexor muscle. Strength through length in
+      the deep hip flexor will directly affect the forces that pull forwards on the spine. As well as affecting
+      where the spine’s resting position lies. Too tight of a psoas can contribute to anterior pelvic tilt. Full
+      Range Split Squat works on this.
+  - id: 6
+    workout: 1
+    name: External Rotation
+    instructions: >-
+      Begin with a light dumbbell or just the bodyweight of the arm to start. Slowly lower the forearm down until
+      the wrist dips below the level of the elbow. Full range is forearm AT or BELOW parallel to ground. However,
+      only lower as far as you currently feel safe to. Using the rotational muscles of the shoulder, lift back up to
+      starting position.
+    purpose: >-
+      This exercise can bring immediate blood flow and stability to the shoulder joint. This can help us access the
+      next steps of the LBA Flow with more confidence & range of motion. The upper back focused movements will rely
+      on resilience & strength of the shoulders. This step helps build just that.
+  - id: 7
+    workout: 1
+    name: Pullover
+    instructions: >-
+      Lie on a bench at shoulder blade level, holding a dumbbell with both hands. Arms extended at eye level, elbows
+      as straight as possible throughout. Lower the weight behind your head and pull the weight back up to starting
+      position.
+    purpose: >-
+      Regaining thoracic extension is key for supporting the entire spine. Opening and strengthening the muscles of
+      the upper back, shoulders, and chest can support a more optimal posture that relates to spinal health in the
+      lower back. What occurs in the vertebrae above, the lower vertebrae follows!
+  - id: 8
+    workout: 1
+    name: Trap 3 Raise
+    instructions: >-
+      Take the knees wide, hinge forward slightly at the hips, and raise your arms up to form a Y shape with your
+      thumbs pointing behind you. For the next progression, lean your chest onto an incline bench with feet on the
+      ground. Engage slight extension of the lower back. Raise your arms, holding light dumbbells if you can, up to
+      form a Y shape with your thumbs pointing behind you.
+    purpose: >-
+      Establishing engagement of the lower trap 3 muscles (that are highly neglected) and isometric engagement of
+      the spinal erectors (low back). Gentle, healing blood flow is brought to the area here. This is a subtle, yet
+      incredibly powerful movement to master.
+  - id: 9
+    workout: 1
+    name: Back Extensions
+    instructions: >-
+      The back extension, no matter what you may have been capable of previously, needs to be begun at Level 1 in
+      the LBA. This is where we learn our discrepancy between muscular ability and tissue tolerance. Begin at Level
+      1 with a high pad, using assistance. You can start with just 30 seconds, and progress until 2 minutes is
+      achieved. The goal is at least 3 consecutive weeks without ANY increased pain or discomfort during or
+      following the session. We commit to the Long Game a little extra when it comes to the back extension. The key
+      is not the steps themselves but progressing only when your next-day symptoms stay stable. Your back will tell
+      you exactly when it’s time to move forward. With every level, it’s okay to embrace a slight regression by
+      re-incorporating assistance in this way. Levels: 1) Iso Holds - 1x2m double leg isometric hold; 2) Single Leg
+      Iso Holds - 1x1m per side; 3) Assisted Hinge Reps - 1x15 half-range reps; 4) Full Range Reps - 1x30 full range
+      bodyweight reps; 5) Single Leg Reps - 1x20 full range single leg reps per side; 6) Weighted Reps - 1x12 loaded
+      double leg reps.
+    purpose: >-
+      This journey of direct spine stimulus will be a mission of providing new EVIDENCE. We will bring pain free
+      circulation to the tissue & pain free contraction to rewire the neuromuscular firing, to teach this it is okay
+      to fire and NOT spasm. This is a “retuning” process of the Gamma Motor Neurons, which develop misfiring issues
+      after chronic pain & injury. This IS a long game. There is no rushing this. Enjoy every step.
+  - id: 10
+    workout: 1
+    name: Hip Flexor Kick Out
+    instructions: >-
+      Stand next to a wall, using it as support. Engage the core, lift the knee only as high as you are capable,
+      straighten the leg, hold for 5 seconds and lower. Avoid compensation by rounding the low back. If you are
+      unable to keep the low back entirely straight, regress by omitting the straightening of the leg and only do
+      bent knee hip flexor raises - still holding for 5 seconds.
+    purpose: >-
+      Continuing to apply strength to the hip flexors (psoas) that are typically tight and weak. This aids in
+      alleviating tension in the low back, establishing new ranges of motion and opening the hips.
+  - id: 11
+    workout: 1
+    name: Side Bend
+    instructions: >-
+      To complete the standing variation, stand tall with feet hip width apart. Take a slight step back, so your
+      back toe is lined up with your front heel. A light dumbbell will be held on the same side as your front leg.
+      The other hand will be placed behind the head. Slide the dumbbell down the leg, following the IT band, while
+      reaching up with the elbow of the hand placed behind the head. Begin with a small, gentle range of motion and
+      gradually apply an inch or two more as trust is established. Be careful to not compensate by leaning forwards
+      or backwards, only lower laterally.
+    purpose: >-
+      As we approach the core and the back from all angles, addressing lateral flexion is one of them! The
+      Quadratus Lumborum attaches directly to each of the lumbar vertebrae as well as the hip plexus. Discrepancies
+      between sides, hip shifts, and pain in the lumbar spine can be traced back to imbalances within the QL muscle.
+
+  # Workout 2 - Low Back Ability Supporting Workout
+  - id: 12
+    workout: 2
+    name: Couch Stretch
+    instructions: >-
+      Kneel with your front foot on the ground and your back knee against a couch or a wall. Slowly lift the torso
+      until an upright position is achieved and a stretch in the hip flexor and thigh is able to be felt.
+    purpose: >-
+      The couch stretch addresses the hip flexors and quadricep muscles. These can become tight for a number of
+      reasons, especially prolonged sitting. Applying length here directly ties into the health and ability of the
+      low back.
+  - id: 13
+    workout: 2
+    name: Fire Hydrants
+    instructions: >-
+      On hands and knees, lift one knee out to the side and draw slow, controlled circles with it: as far back as
+      you can get it, as high as you can get it, and down. 10 clockwise, then 10 counterclockwise, then switch
+      sides. Your body should barely move. If you feel a click, don’t grind through it. Stop short of it and cut the
+      range, or go up to that point and reverse out of it.
+    purpose: >-
+      This is mainly for the ball and socket of the hip: getting the joint to glide through its full circle the way
+      it’s supposed to. It’s a good warm up that also burns out the muscles around the outer hip and stimulates the
+      tissue around the labrum, the cartilage of the hip joint. Keeping the torso still makes it a core
+      stabilization exercise too.
+  - id: 14
+    workout: 2
+    name: Hip Abduction
+    instructions: >-
+      On hands and knees, lift your bent knee out to the side, like a fire hydrant kick out, and lower it with
+      control. 10 reps, then switch sides. Try not to move your body. Push away with the planted knee.
+    purpose: >-
+      Straight after Fire Hydrants the outer hip is already burning, and this keeps it working. It should feel like
+      the abductor machine, using nothing but the floor.
+  - id: 15
+    workout: 2
+    name: 90/90 Rotation
+    instructions: >-
+      Sit in the 90/90 position: both knees bent to 90 degrees, one leg in front of you and one out to the side,
+      hands on the floor behind you for support. Pick up the heel of your back leg, rotate it inward and try to tap
+      your heels together. Then come back to the starting position. Do 10 reps, then switch sides. A good long-term
+      goal is no hands, without overly contorting your spine.
+    purpose: >-
+      This works the muscles of the outer hip through rotation. It also helps the hip joint itself stay lubricated.
+  - id: 16
+    workout: 2
+    name: Outer Hip Dropset
+    instructions: >-
+      Three steps, 30 seconds each, back to back: internal rotation, then lifted knee and foot, then kickout. Then
+      switch sides.
+    purpose: >-
+      This series of movements target the muscles of the outer hip and glutes, which commonly become sensitive &
+      tight in cases of chronic low back pain. Re-establishing engagement here is helpful in alleviating tension in
+      the low back and addressing lateral imbalance at the pelvis. This is an important step to supporting the
+      reduction of sciatica over time.
+  - id: 17
+    workout: 2
+    name: Pigeon Strength
+    instructions: >-
+      Start by pinning the knee at about 45 degrees on an incline bench, keeping the back leg straight. Lift the
+      body by pushing the knee into the bench. This is long range STRENGTH, not passive stretching. To regress,
+      increase the incline. You should be able to remain hands-free at the correct height.
+    purpose: >-
+      The pigeon STRENGTH directly targets outer glute muscles, including the piriformis muscle, which sits right
+      on top of the sciatic nerve. Combined with the rest of our efforts in the LBA, this can play a crucial role in
+      making persistent nerve symptoms less likely.
+  - id: 18
+    workout: 2
+    name: Deep Squats
+    instructions: >-
+      Stand with feet hip width apart and lower into a squat. Keep the back straight and the knees over the toes.
+      Push through the heels to return to standing position.
+    purpose: The deep squat is a great movement to build strength and stability in the lower body.
+  - id: 19
+    workout: 2
+    name: Loaded Butterfly
+    instructions: >-
+      Sit on the floor with the soles of your feet together and knees bent. Press your knees towards the ground with
+      your hands or dumbbells, and lift the knees back up to contract the muscles of the inner thigh and groin.
+      Maintain an upright posture. If you feel any “pulling” or compensation in the low back, please elevate your
+      seat by sitting on a yoga block, folded mat, or bumper plates.
+    purpose: >-
+      This is a movement where the connection between the hips and back is really able to be felt and experienced!
+      Applying strength through length to the inner thigh and hip muscles, and allowing them to move and engage
+      without pushing the back into a rounded position.
+  - id: 20
+    workout: 2
+    name: Active Hangs
+    instructions: >-
+      Hang from a bar with both hands. Engage the abdominal muscles and keep the shoulders relaxed. Work to keep
+      your core engaged, as our goal is NOT spinal decompression here. This is for the shoulder joint to have some
+      separation and allow for gradual remodeling overtime.
+    purpose: >-
+      The active hang stretches the muscles of the upper body. This can be helpful in combination with all of the
+      engagement and strengthening work that we incorporate in the LBA. This movement also incorporates grip
+      strength, which is one of the greatest indicators of life longevity.

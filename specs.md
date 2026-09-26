@@ -59,55 +59,8 @@ locally and create the above entities (objects) automatically.
 
 #### Fixtures (seeds)
 
-- Workouts:
-    1. id: 1
-       name: Low Back Ability Main Workout
-       short_name: LBA Main
-       description: The main workout session for lower back strengthening.
-    2. id: 2
-       name: Low Back Ability Supporting Workout
-       short_name: LBA Supporting
-       description: The supporting workout session for lower back strengthening, plus calisthenics exercises.
-- Exercises (workout 1 - Low Back Ability Main Workout):
-    1. id: 1
-       workout: 1
-       name: Sled Pull
-       instructions: Start with just BACKWARDS sled for the first few sessions. Gradually progress to include Sled
-       PUSH/PULL COMBO up to 2x/week. Sled PUSH involves gentle spinal compression that we want to slowly build
-       tolerance to. If a sled isn’t available, walk backward on a treadmill (turned off) or simply practice walking
-       backward. Pay attention to your footing to avoid injury.
-       purpose: The Sled is a complete lower body exercise that is very low back friendly. The Sled PUSH is a great
-       middle step back to traditional lifts like back squat. Training the legs with tolerable spinal compression. The
-       sled PUSH actually has been a great relief tool for many people during a flare up (take it slow).
-    2. id: 2
-       workout: 1
-       name: Tibialis Raises
-       instructions: Stand upright, or with a slight bend at the hips for more ease. Begin with the hips against a wall
-       and the heels standing about 12 inches away from the wall. Lift your toes up and towards your shins, engaging the
-       muscles of the anterior lower leg.
-       purpose: Our “Ground-Up” rebalancing begins at the first common weak link: The FRONT of the ankle. Weakness can
-       often be seen after prolonged nerve pain, sometimes even presenting as foot drop. Building strength in the
-       ankles & lower legs is our first step in finding pain-free evidence as we work our way up. Weak ankles leave the
-       knees vulnerable which can affect our true low back training.
-    3. id: 3
-       workout: 1
-       name: Deep Calf Raise
-       instructions: Stand an arm’s length from wall and place your hands ahead. While keeping the heels on the
-       ground, bend the knees pushing them as far over the toes as you can while maintaining heel contact with the
-       ground. Lock this position. From here, lift onto the toes and perform a calf raise, maintaining the knee over
-       toe position.
-       purpose: Applying strength through length to the soleus, or the lower calf muscle, begins a cascade of
-       engagement and protection that travels up the posterior leg. Opening here allows for more length to eventually
-       be experienced in the hamstrings.
-    4. id: 4
-       workout: 1
-       name: Reverse Step Up
-       instructions: Stand upright, and extend one leg out in front of you about 6 inches off of the ground. Keep
-       this leg entirely straight. With the standing leg, bend at the knee, pushing the hips forward until the heel
-       of the elevated leg taps the ground. Pause for 1 second here, then straighten to standing position.
-       purpose: This movement helps build the Vastus Medialis Oblique (VMO), which is incredibly protective of the
-       knee. Building knee resilience at this step will give us better access at more back specific steps of the LBA
-       Flow, such as the Full Range Split Squat.
+See [seeds.yaml](seeds.yaml) for the full list of Workout and Exercise seed data (referenced by `workout` FK on
+each Exercise).
 
 ## Architecture
 
