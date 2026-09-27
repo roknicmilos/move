@@ -170,7 +170,8 @@ The layout is mobile first, with a bottom nav: Workouts · History · (account/l
 ## Part 3: Implementation steps
 
 Each step ends with a **"Try it"** check in the running app, passing tests, and updates to README/CLAUDE.md/spec
-where relevant.
+where relevant. A step with backend changes is done backend-tests-first, with a pause for manual review before the
+backend implementation; see "Implementation workflow" in `.claude/CLAUDE.md` for the exact order.
 
 ### Step 0: Prerequisites (Docker and Compose)
 
