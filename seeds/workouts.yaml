@@ -1,0 +1,8 @@
+- id: 1
+  name: Low Back Ability Main Workout a.k.a. Flow
+  short_name: LBA Main
+  description: The main workout session for lower back strengthening.
+- id: 2
+  name: Low Back Ability Supporting Workout a.k.a. Mobility Flow
+  short_name: LBA Supporting
+  description: The supporting workout session for lower back strengthening, plus calisthenics exercises.

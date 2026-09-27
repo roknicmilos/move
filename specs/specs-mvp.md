@@ -41,8 +41,8 @@ The project should support 2 different workouts represented by a single Workout 
 
 ### Fixtures (seeds)
 
-See [seeds.yaml](../seeds.yaml) for the full list of Workout and Exercise seed data (referenced by `workout` FK on
-each Exercise).
+See [workouts.yaml](../seeds/workouts.yaml) and [exercises.yaml](../seeds/exercises.yaml) for the full list of
+Workout and Exercise seed data (referenced by `workout` FK on each Exercise).
 
 ## Architecture
 
