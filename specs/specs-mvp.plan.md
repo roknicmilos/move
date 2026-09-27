@@ -47,8 +47,12 @@ architecture. Part 3 splits the work into steps, each ending in a feature you ca
 | load_kg, duration_sec | keep, **add `sets`, `reps`** (all optional)      | These are the values actually done. They are copied from the exercise prescription when checked, so history stays correct if the prescription changes later. Editing them in the UI can come after the MVP. |
 | —                     | unique `(session, exercise)`                     |                                                                                                                                                                                                             |
 
-**User**: use Django's built-in `auth.User` (username and password). There is no registration. Users are created with
-`manage.py createsuperuser` (the owner) and through Django admin (everyone else). Credentials are never committed.
+**User**: custom `accounts.User`, extending `AbstractUser` (the model Django's docs recommend starting from when the
+built-in one needs any change, since swapping it later requires a fresh database). `username` stays the login field
+(`USERNAME_FIELD`, unique, required); `email` becomes optional (`blank=True`). `AUTH_USER_MODEL = "accounts.User"` is
+set in Step 1, before the first migration, so no app migrates against `auth.User` first. There is no registration.
+Users are created with `manage.py createsuperuser` (the owner) and through Django admin (everyone else). Credentials
+are never committed.
 
 ### 1.2 Other decisions
 
@@ -108,8 +112,9 @@ Everything runs in containers. Nothing needs to be installed on the host except 
 ### 2.3 Repository layout (target)
 
 ```
-backend/            Django project `config/`; apps `accounts/` (auth API) and `workouts/` (all 4 models,
-                    load_seeds command, API); Dockerfile, pyproject.toml, uv.lock
+backend/            Django project `config/`; apps `accounts/` (custom User model, auth API) and `workouts/`
+                    (Workout, Exercise, WorkoutSession, SessionExercise, load_seeds command, API); Dockerfile,
+                    pyproject.toml, uv.lock
 frontend/           Vite React app: src/{api,components,pages,hooks,lib}; Dockerfile; package.json
 proxy/              Caddyfile (dev), Caddyfile.prod, Dockerfile (prod)
 seeds/              workouts.yaml, exercises.yaml (unchanged location; backend build context is repo root)
@@ -184,6 +189,8 @@ Backend
 
 - Django project `config`, with settings read from env (`DJANGO_SECRET_KEY`, `DJANGO_DEBUG`, `DJANGO_ALLOWED_HOSTS`,
   `DJANGO_CSRF_TRUSTED_ORIGINS`, `POSTGRES_*`). Postgres via `DATABASE_*` settings. DRF and drf-spectacular set up.
+- App `accounts` with the custom `User` model from 1.1 (`AUTH_USER_MODEL = "accounts.User"`), its migration, and
+  admin registration — done first, before any other app's migration.
 - App `workouts` with the `Workout` and `Exercise` models from 1.1, a migration, and admin registration.
 - `load_seeds` management command: reads `/seeds/*.yaml`, `update_or_create` by id, sets `position` from the order
   within each workout, and validates that each FK exists. Seeds get the `per_side` flags.
@@ -215,8 +222,9 @@ and `/api/workouts/` returns both workouts with the right exercise counts.
 
 Backend
 
-- App `accounts`: `csrf`, `login`, `logout`, `me` endpoints. `SessionAuthentication` and `IsAuthenticated` become
-  the DRF defaults (only health, csrf and login stay public). Login is throttled (for example 5/min per IP).
+- `accounts`: `csrf`, `login`, `logout`, `me` endpoints, on top of the `User` model from Step 1. `SessionAuthentication`
+  and `IsAuthenticated` become the DRF defaults (only health, csrf and login stay public). Login is throttled (for
+  example 5/min per IP).
 - Settings: `SESSION_COOKIE_AGE = 1209600`, `SESSION_SAVE_EVERY_REQUEST = False`, `SESSION_COOKIE_HTTPONLY = True`,
   `CSRF_COOKIE_HTTPONLY = False` (the SPA reads it), `SameSite=Lax`.
 - Users: `docker compose exec backend python manage.py createsuperuser`, and other users through `/admin/`.
@@ -361,8 +369,8 @@ Move is a PWA workout tracker. Specs are in `specs/` (`specs-mvp.md` is the curr
 
 ## Stack & layout
 
-- `backend/`: Django + DRF. Apps: `accounts` (auth API) and `workouts` (Workout, Exercise, WorkoutSession,
-  SessionExercise). API under `/api/`, snake_case JSON.
+- `backend/`: Django + DRF. Apps: `accounts` (custom `User` model, auth API) and `workouts` (Workout, Exercise,
+  WorkoutSession, SessionExercise). API under `/api/`, snake_case JSON.
 - `frontend/`: React + TypeScript + Vite + TanStack Query + Tailwind, PWA via vite-plugin-pwa.
 - `proxy/`: Caddy. It is the single origin that routes `/api`, `/admin` and `/static` to the backend and
   everything else to the SPA.

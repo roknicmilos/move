@@ -19,26 +19,39 @@ The project should support 2 different workouts represented by a single Workout 
 - Workout
     - name: str
     - short_name: str
-    - instructions: str
-    - purpose: str (optional)
-    - exercises: Exercise collection
+    - description: str
+    - exercises: Exercise collection (reverse FK, ordered by `position`)
 - Exercise
     - workout: Workout (FK)
     - name: str
-    - description: str
+    - position: int (unique per workout, sets the flow order)
+    - instructions: str
+    - purpose: str (optional)
+    - sets: int (optional)
+    - reps: int (optional)
+    - duration_sec: int (seconds, per set) optional
+    - load_kg: float (kilograms, per set) optional
+    - per_side: bool (default false)
+- WorkoutSession
+    - user: User (FK, required)
+    - workout: Workout (FK, `PROTECT`)
+    - started_at: datetime (set by the server, on create)
+    - ended_at: datetime (nullable; `NULL` means in progress)
+    - exercises: SessionExercise collection
+    - constraints: at most one in-progress session per user, and `ended_at >= started_at`
+- SessionExercise
+    - session: WorkoutSession (FK, related name `exercises`)
+    - exercise: Exercise (FK, `PROTECT`)
+    - completed_at: datetime (created when checked, deleted when unchecked)
     - sets: int (optional)
     - reps: int (optional)
     - duration_sec: int (seconds) optional
     - load_kg: float (kilograms) optional
-- WorkoutSession
-    - workout: Workout
-    - started_at: datetime
-    - ended_at: datetime
-    - exercises: ExerciseSet collection
-- ExerciseSet
-    - exercise: Exercise
-    - load_kg: float (kilograms) optional
-    - duration_sec: int (seconds) optional
+    - unique `(session, exercise)`
+- User: custom `accounts.User`, extending Django's `AbstractUser` (the recommended base when the built-in user model
+  needs any change). `username` is the login field, required and unique; `email` is optional. No registration;
+  created with `manage.py createsuperuser` (the owner) and through Django admin (everyone else). Credentials are
+  never committed.
 
 ### Fixtures (Seeds)
 
@@ -64,10 +77,40 @@ user session should expire after 2 weeks.
 
 ## Architecture
 
+See [specs-mvp.plan.md](specs-mvp.plan.md) Part 2 for the full detail (stack versions, services, repository
+layout, API, frontend routes). Summary:
+
 ### Backend
 
-TODO
+Python, Django, Django REST Framework, drf-spectacular (OpenAPI and Swagger UI), gunicorn (prod), `uv` for
+dependencies, PostgreSQL. Apps: `accounts` (custom `User` model, auth API) and `workouts` (the other 4 models,
+`load_seeds` command, API).
+Session cookie auth (not JWT): the frontend and API are served from the same origin, so there is no CORS setup and
+no tokens in JS storage. CSRF uses Django's cookie plus an `X-CSRFToken` header. The login session cookie expires
+14 days from login (`SESSION_COOKIE_AGE = 1209600`, not extended on each request). Seeds (`seeds/workouts.yaml`,
+`seeds/exercises.yaml`) are the source of truth for workouts and exercises: `load_seeds`
+upserts by `id`, is safe to run more than once, and runs on every backend start. Removing an entry from YAML does
+not delete it from the DB, because history references it. Datetimes are stored in UTC (`USE_TZ = True`).
 
 ### Frontend
 
-TODO
+React, TypeScript, Vite, React Router, TanStack Query, Tailwind CSS, date-fns, `vite-plugin-pwa`, npm. Mobile
+first, with a bottom nav: Workouts · History · (account/logout). Routes:
+
+| Route                                        | Page                                                                                |
+|----------------------------------------------|-------------------------------------------------------------------------------------|
+| `/`                                          | Workouts overview (landing), with a "Resume workout" banner when one is in progress |
+| `/login`                                     | Login                                                                               |
+| `/workouts/:workoutId`                       | Workout details, exercise list, **Start workout** button                            |
+| `/workouts/:workoutId/exercises/:exerciseId` | Exercise details                                                                    |
+| `/sessions/:sessionId`                       | Recording page while in progress, summary once ended                                |
+| `/history?view=week\|month&date=YYYY-MM-DD`  | History (weekly by default)                                                         |
+
+Times are shown in the browser's local time zone. History weeks start on Monday, and week/month ranges are
+computed in local time.
+
+### Infrastructure
+
+Everything runs in Docker Compose: `db` (PostgreSQL), `backend` (Django), `frontend` (Vite dev server, dev only),
+and `proxy` (Caddy), which is the single origin routing `/api`, `/admin`, `/static` to the backend and everything
+else to the SPA. Nothing needs to be installed on the host except Docker and Git.
