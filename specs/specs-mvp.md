@@ -32,17 +32,35 @@ The project should support 2 different workouts represented by a single Workout 
     - load_kg: float (kilograms) optional
 - WorkoutSession
     - workout: Workout
-    - date: date
+    - started_at: datetime
+    - ended_at: datetime
     - exercises: ExerciseSet collection
 - ExerciseSet
     - exercise: Exercise
     - load_kg: float (kilograms) optional
     - duration_sec: int (seconds) optional
 
-### Fixtures (seeds)
+### Fixtures (Seeds)
 
 See [workouts.yaml](../seeds/workouts.yaml) and [exercises.yaml](../seeds/exercises.yaml) for the full list of
 Workout and Exercise seed data (referenced by `workout` FK on each Exercise).
+
+## Web App Features
+
+- User should be able to have an overview of all workouts. Selecting a workout leads to that workout page with details
+  about that workout and list of all exercises. Selecting an exercise leads to that exercise page with details about
+  that exercise.
+- User should be able to record a workout. When user selects a workout, there should be a button to start a workout. It
+  opens a page that clearly shows that workout is in progress. Each exercise has a checkmark that user can select after
+  completing that exercise. Starting a workout automatically sets started_at for that workout session. There should be a
+  button to end the workout that sets ended_at for that workout.
+- User should be able to see a history of their workouts. They should be able to select a view for this history: weekly
+  and monthly. Default is weekly.
+
+## Authentication
+
+The app has predefined users. Each user has a username and password. There is no registration, only login. Authenticated
+user session should expire after 2 weeks.
 
 ## Architecture
 
