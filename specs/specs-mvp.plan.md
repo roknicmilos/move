@@ -127,14 +127,14 @@ compose.yaml, compose.prod.yaml, .env.example, README.md, .claude/CLAUDE.md
 | Step | Method & path                                     | Purpose                                                                                                |
 |------|---------------------------------------------------|--------------------------------------------------------------------------------------------------------|
 | 1    | `GET /health/` (public)                           | Liveness check, including the DB                                                                       |
-| 1    | `GET /workouts/`                                  | List: id, name, short_name, description, exercise_count                                                |
+| 1    | `GET /workouts/` (public)                         | List: id, name, short_name, description, exercise_count                                                |
 | 1    | `GET /schema/`, `GET /docs/` (DEBUG only)         | OpenAPI schema and Swagger UI                                                                          |
 | 2    | `GET /auth/csrf/` (public)                        | Sets the CSRF cookie                                                                                   |
 | 2    | `POST /auth/login/` (public, throttled)           | Username and password → login session cookie                                                           |
 | 2    | `POST /auth/logout/`                              | Ends the login session                                                                                 |
 | 2    | `GET /auth/me/`                                   | The current user, or 403                                                                               |
-| 3    | `GET /workouts/{id}/`                             | Workout with its ordered exercises                                                                     |
-| 3    | `GET /exercises/{id}/`                            | Exercise details                                                                                       |
+| 3    | `GET /workouts/{id}/` (public)                    | Workout with its ordered exercises                                                                     |
+| 3    | `GET /exercises/{id}/` (public)                   | Exercise details                                                                                       |
 | 4    | `POST /sessions/` `{workout_id}`                  | Start a session (`started_at = now`). **409** with the active session id if one is already in progress |
 | 4    | `GET /sessions/active/`                           | The user's in-progress session, or 204                                                                 |
 | 4    | `GET /sessions/{id}/`                             | Session with completed exercises                                                                       |
@@ -147,6 +147,9 @@ compose.yaml, compose.prod.yaml, .env.example, README.md, .claude/CLAUDE.md
 All session endpoints only return the current user's sessions. Another user's session returns 404. Checking or
 unchecking an exercise is rejected on an ended session, and so is an exercise that belongs to another workout.
 
+`/workouts/`, `/workouts/{id}/`, and `/exercises/{id}/` stay public permanently (not just until Step 2 lands), so
+anyone can browse the workouts and exercises without logging in. Everything under `/sessions/` still requires login.
+
 ### 2.5 Frontend routes
 
 | Route                                        | Page                                                                                |
@@ -157,6 +160,10 @@ unchecking an exercise is rejected on an ended session, and so is an exercise th
 | `/workouts/:workoutId/exercises/:exerciseId` | Exercise details                                                                    |
 | `/sessions/:sessionId`                       | Recording page while in progress, summary once ended                                |
 | `/history?view=week\|month&date=YYYY-MM-DD`  | History (weekly by default)                                                         |
+
+`/`, `/workouts/:workoutId`, and `/workouts/:workoutId/exercises/:exerciseId` are public (no route guard). Every
+other route, and the **Start workout** action on the workout page, requires login; hitting them unauthenticated
+redirects to `/login?next=…`.
 
 The layout is mobile first, with a bottom nav: Workouts · History · (account/logout).
 
@@ -194,7 +201,7 @@ Backend
 - App `workouts` with the `Workout` and `Exercise` models from 1.1, a migration, and admin registration.
 - `load_seeds` management command: reads `/seeds/*.yaml`, `update_or_create` by id, sets `position` from the order
   within each workout, and validates that each FK exists. Seeds get the `per_side` flags.
-- `GET /api/health/`, `GET /api/workouts/`. Temporarily public, until Step 2.
+- `GET /api/health/`, `GET /api/workouts/`. Both public — `workouts/` stays public permanently, per 2.4.
 - `backend/Dockerfile` (uv, non-root user), entrypoint that runs migrate + load_seeds.
 
 Frontend
@@ -223,29 +230,33 @@ and `/api/workouts/` returns both workouts with the right exercise counts.
 Backend
 
 - `accounts`: `csrf`, `login`, `logout`, `me` endpoints, on top of the `User` model from Step 1. `SessionAuthentication`
-  and `IsAuthenticated` become the DRF defaults (only health, csrf and login stay public). Login is throttled (for
-  example 5/min per IP).
+  and `IsAuthenticated` become the DRF defaults, with `AllowAny` explicitly overridden on `health`, `workouts` (list
+  and detail), `exercises` (detail), `csrf`, and `login`. Login is throttled (for example 5/min per IP).
 - Settings: `SESSION_COOKIE_AGE = 1209600`, `SESSION_SAVE_EVERY_REQUEST = False`, `SESSION_COOKIE_HTTPONLY = True`,
   `CSRF_COOKIE_HTTPONLY = False` (the SPA reads it), `SameSite=Lax`.
 - Users: `docker compose exec backend python manage.py createsuperuser`, and other users through `/admin/`.
 
 Frontend
 
-- `/login` page. An auth context uses `GET /auth/me`. A route guard sends unauthenticated users to `/login?next=…`.
-  A global handler for 401/403 does the same.
+- `/login` page. An auth context uses `GET /auth/me`. A route guard applies only to `/sessions/*` and `/history`,
+  sending unauthenticated users to `/login?next=…`; `/`, `/workouts/:id`, and its exercise pages stay reachable
+  logged out. The **Start workout** button sends a logged-out user to `/login?next=…` instead. A global handler for
+  401/403 on any API call does the same redirect.
 - The API client sends `X-CSRFToken` on unsafe methods.
 - A logout action in the nav.
 
-Tests: a wrong password gives 400, a correct one sets the cookie, `me` returns 200 when logged in and 403 when
-not, `/api/workouts/` returns 403 anonymously, and the login cookie max-age is 14 days.
+Tests: a wrong password gives 400, a correct one sets the cookie, `me` returns 200 when logged in and 403 when not,
+`/api/workouts/` (list and detail) and `/api/exercises/{id}/` return 200 anonymously, `/api/sessions/*` returns 403
+anonymously, and the login cookie max-age is 14 days.
 
-**Try it:** create a user. Opening `/` redirects to login, a wrong password shows an error, and the right one shows
-the workouts. After logout, pages redirect to login again. DevTools shows a `sessionid` cookie that expires in 14
-days.
+**Try it:** create a user. Opening `/` anonymously shows the workouts (no redirect); opening `/history` redirects to
+login. A wrong password shows an error, and the right one logs in. After logout, `/history` redirects to login
+again but `/` still works. DevTools shows a `sessionid` cookie that expires in 14 days.
 
 ### Step 3: Workout and exercise details
 
-Backend: `GET /api/workouts/{id}/` (with its exercises ordered by position) and `GET /api/exercises/{id}/`.
+Backend: `GET /api/workouts/{id}/` (with its exercises ordered by position) and `GET /api/exercises/{id}/`, both
+public per 2.4.
 
 Frontend
 
@@ -270,7 +281,8 @@ Backend
 
 Frontend
 
-- Workout page: **Start workout** → `POST /sessions/` → navigate to `/sessions/:id`. On 409, offer to resume.
+- Workout page: **Start workout** → `POST /sessions/` → navigate to `/sessions/:id`. On 409, offer to resume. If the
+  visitor isn't logged in, it sends them to `/login?next=…` instead (the page itself stays visible logged out).
 - Recording page (`/sessions/:id` while in progress): a clear "In progress" header with the workout name and a live
   elapsed timer, and the exercise list with a large checkbox per exercise. Checkboxes update optimistically and roll
   back on error. Tapping an exercise name opens its details, and Back returns to the session. There is a

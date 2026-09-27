@@ -62,18 +62,21 @@ Workout and Exercise seed data (referenced by `workout` FK on each Exercise).
 
 - User should be able to have an overview of all workouts. Selecting a workout leads to that workout page with details
   about that workout and list of all exercises. Selecting an exercise leads to that exercise page with details about
-  that exercise.
+  that exercise. **These three pages (workouts overview, workout details, exercise details) are public: no login is
+  required to view them.**
 - User should be able to record a workout. When user selects a workout, there should be a button to start a workout. It
   opens a page that clearly shows that workout is in progress. Each exercise has a checkmark that user can select after
   completing that exercise. Starting a workout automatically sets started_at for that workout session. There should be a
-  button to end the workout that sets ended_at for that workout.
+  button to end the workout that sets ended_at for that workout. **Starting or resuming a workout requires login;** an
+  anonymous visitor who taps **Start workout** is sent to log in first.
 - User should be able to see a history of their workouts. They should be able to select a view for this history: weekly
-  and monthly. Default is weekly.
+  and monthly. Default is weekly. **This page requires login.**
 
 ## Authentication
 
 The app has predefined users. Each user has a username and password. There is no registration, only login. Authenticated
-user session should expire after 2 weeks.
+user session should expire after 2 weeks. The workouts overview, workout details, and exercise details pages are public;
+recording a session and viewing history require login.
 
 ## Architecture
 
@@ -105,6 +108,9 @@ first, with a bottom nav: Workouts · History · (account/logout). Routes:
 | `/workouts/:workoutId/exercises/:exerciseId` | Exercise details                                                                    |
 | `/sessions/:sessionId`                       | Recording page while in progress, summary once ended                                |
 | `/history?view=week\|month&date=YYYY-MM-DD`  | History (weekly by default)                                                         |
+
+`/`, `/workouts/:workoutId`, and its exercise pages are public. Everything else requires login (an anonymous visit
+redirects to `/login`), and so does the **Start workout** action on the workout page.
 
 Times are shown in the browser's local time zone. History weeks start on Monday, and week/month ranges are
 computed in local time.
